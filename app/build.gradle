@@ -17,6 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildTypes.each {
+        it.buildConfigField ("String", "POPULAR_MOVIES_API_KEY", "\"YOUR_API_KEY_HERE\"")
+    }
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -26,4 +33,5 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
