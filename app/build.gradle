@@ -18,7 +18,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField ("String", "POPULAR_MOVIES_API_KEY", "\"YOUR_API_KEY_HERE\"")
+        it.buildConfigField("String", "POPULAR_MOVIES_API_KEY", "\"YOUR_API_KEY_HERE\"")
     }
 }
 
@@ -32,6 +32,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support:support-v4:25.2.0'
+    testCompile 'junit:junit:4.12'
 }
