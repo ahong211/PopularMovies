@@ -1,24 +1,17 @@
 package com.example.albert.popularmovies;
 
 
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 
-import com.squareup.picasso.Picasso;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -26,6 +19,7 @@ import java.net.URL;
  */
 public class MovieFragment extends Fragment {
 
+    private ArrayAdapter<String> mMovieAdapter;
 
     public MovieFragment() {
         // Required empty public constructor
@@ -35,20 +29,39 @@ public class MovieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // Creating dummy strings as a test
+        String[] data = {
+                "example1",
+                "example2",
+                "example3"
+        };
+
+        List<String> exampleTest = new ArrayList<>(Arrays.asList(data));
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
-        ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView);
 
-        Picasso.with(getActivity())
-                .load("http://www.golden-retriever-dog.com/wp-content/uploads/2015/08/golden-retriever-dog-03.jpg")
-                .into(imageView);
+        mMovieAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.list_posters,
+                R.id.list_poster_textview,
+                exampleTest);
 
-        FetchMovieTask movieTask = new FetchMovieTask();
-        movieTask.execute();
+        GridView gridView = (GridView) rootView.findViewById(R.id.poster_grid);
+        gridView.setAdapter(mMovieAdapter);
+
+//        ImageView imageView = (ImageView) rootView.findViewById(imageView);
+//
+//        Picasso.with(getActivity())
+//                .load("http://www.golden-retriever-dog.com/wp-content/uploads/2015/08/golden-retriever-dog-03.jpg")
+//                .into(imageView);
+
+//        FetchMovieTask movieTask = new FetchMovieTask();
+//        movieTask.execute();
 
         return rootView;
     }
-
+/**
     public class FetchMovieTask extends AsyncTask<Void, Void, Void> {
 
         private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
@@ -131,5 +144,5 @@ public class MovieFragment extends Fragment {
             return null;
         }
     }
-
+*/
 }
