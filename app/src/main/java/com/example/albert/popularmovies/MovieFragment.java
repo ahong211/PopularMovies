@@ -1,14 +1,30 @@
 package com.example.albert.popularmovies;
 
 
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +41,33 @@ public class MovieFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Add this line in order for this fragment to handles menu events.
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml
+        int id = item.getItemId();
+        if (id == R.id.action_refresh) {
+
+            FetchMovieTask movieTask = new FetchMovieTask();
+            movieTask.execute();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,18 +99,54 @@ public class MovieFragment extends Fragment {
 //                .load("http://www.golden-retriever-dog.com/wp-content/uploads/2015/08/golden-retriever-dog-03.jpg")
 //                .into(imageView);
 
-//        FetchMovieTask movieTask = new FetchMovieTask();
-//        movieTask.execute();
+
 
         return rootView;
     }
-/**
-    public class FetchMovieTask extends AsyncTask<Void, Void, Void> {
+
+    public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
 
         private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
+        /**
+         * Take the String representing the complete forecast in JSON Format and
+         * pull out the data we need to construct the Strings needed for the wireframes.
+         *
+         * Foretunately parsing is easy: constructor takes the JSON string and converts it
+         * into an Object hierarchy for us.
+         */
+
+        private String[] getMovieDataFromJson(String movieJsonStr, int numMovies) throws JSONException {
+
+            // These are the names of the JSON objects that need to be extracted.
+            final String MDB_RESULTS = "results";
+            final String MDB_POSTER_PATH = "poster_path";
+
+            JSONObject movieJson = new JSONObject(movieJsonStr);
+            JSONArray movieArray = movieJson.getJSONArray(MDB_RESULTS);
+
+            String[] resultStrs = new String[numMovies];
+            for (int i = 0; i < movieArray.length(); i++) {
+                // For now, just going to output the poster path url string
+                String posterPathString;
+
+                // Get the JSON object representing that movie in the json
+                JSONObject numMovie = movieArray.getJSONObject(i);
+
+                posterPathString = numMovie.getString(MDB_POSTER_PATH);
+
+                resultStrs[i] = posterPathString;
+            }
+
+            for (String s : resultStrs) {
+                Log.v(LOG_TAG, "Poster Entries: " + s);
+            }
+
+            return resultStrs;
+        }
+
         @Override
-        protected Void doInBackground(Void... params) {
+        protected String[] doInBackground(String... params) {
 
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block
@@ -76,6 +155,8 @@ public class MovieFragment extends Fragment {
 
             // Will contain the raw JSON response as a string.
             String movieJsonStr = null;
+
+            int numMovies = 20;
 
             String sort = "popularity.desc";
 
@@ -112,7 +193,7 @@ public class MovieFragment extends Fragment {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     // Since it's JSON, adding a newline isn't necessary (it won't affect parsing
-                    // But it does make debugging a *lot* easier ifyoiu print out the completed
+                    // But it does make debugging a *lot* easier if you print out the completed
                     // buffer for debugging
                     buffer.append(line + "\n");
                 }
@@ -141,8 +222,27 @@ public class MovieFragment extends Fragment {
                 }
             }
 
+            try {
+                return getMovieDataFromJson(movieJsonStr, numMovies);
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+                e.printStackTrace();
+            }
+
+            // This will only happen if there was an error getting or parsing the forecast.
             return null;
         }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+            if (result != null) {
+                mMovieAdapter.clear();
+                for (String movieStr : result) {
+                    mMovieAdapter.add(movieStr);
+                }
+                // New data is back from the server. Hooray?
+            }
+        }
     }
-*/
+
 }
