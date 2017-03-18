@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import org.json.JSONArray;
@@ -26,8 +25,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -35,7 +32,8 @@ import java.util.List;
  */
 public class MovieFragment extends Fragment {
 
-    private ArrayAdapter<String> mMovieAdapter;
+    private MovieAdapter mMovieAdapter;
+   // List<String> urlStrings = new ArrayList<String>();
 
     public MovieFragment() {
         // Required empty public constructor
@@ -73,35 +71,31 @@ public class MovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Creating dummy strings as a test
-        String[] data = {
-                "example1",
-                "example2",
-                "example3"
-        };
-
-        List<String> exampleTest = new ArrayList<>(Arrays.asList(data));
-
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
 
-        mMovieAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.list_posters,
-                R.id.list_poster_textview,
-                exampleTest);
+//        mMovieAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_posters, R.id.list_poster_textview, new ArrayList<String>());
+
+        mMovieAdapter = new MovieAdapter(getActivity(), new ArrayList<String>());
 
         GridView gridView = (GridView) rootView.findViewById(R.id.poster_grid);
         gridView.setAdapter(mMovieAdapter);
 
-//        ImageView imageView = (ImageView) rootView.findViewById(imageView);
-//
+ //       ImageView imageView = (ImageView) rootView.findViewById(R.id.list_poster_textview);
+
 //        Picasso.with(getActivity())
 //                .load("http://www.golden-retriever-dog.com/wp-content/uploads/2015/08/golden-retriever-dog-03.jpg")
 //                .into(imageView);
 
 
-
         return rootView;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FetchMovieTask movieTask = new FetchMovieTask();
+        movieTask.execute();
     }
 
     public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
@@ -116,7 +110,7 @@ public class MovieFragment extends Fragment {
          * into an Object hierarchy for us.
          */
 
-        private String[] getMovieDataFromJson(String movieJsonStr, int numMovies) throws JSONException {
+        private String[] getMovieDataFromJson(String movieJsonStr) throws JSONException {
 
             // These are the names of the JSON objects that need to be extracted.
             final String MDB_RESULTS = "results";
@@ -125,7 +119,9 @@ public class MovieFragment extends Fragment {
             JSONObject movieJson = new JSONObject(movieJsonStr);
             JSONArray movieArray = movieJson.getJSONArray(MDB_RESULTS);
 
-            String[] resultStrs = new String[numMovies];
+            String[] resultStrs = new String[20];
+
+
             for (int i = 0; i < movieArray.length(); i++) {
                 // For now, just going to output the poster path url string
                 String posterPathString;
@@ -135,7 +131,8 @@ public class MovieFragment extends Fragment {
 
                 posterPathString = numMovie.getString(MDB_POSTER_PATH);
 
-                resultStrs[i] = posterPathString;
+                resultStrs[i] = "http://image.tmdb.org/t/p/w185" + posterPathString;
+
             }
 
             for (String s : resultStrs) {
@@ -223,7 +220,7 @@ public class MovieFragment extends Fragment {
             }
 
             try {
-                return getMovieDataFromJson(movieJsonStr, numMovies);
+                return getMovieDataFromJson(movieJsonStr);
             } catch (JSONException e) {
                 Log.e(LOG_TAG, e.getMessage(), e);
                 e.printStackTrace();
@@ -235,11 +232,14 @@ public class MovieFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String[] result) {
+
             if (result != null) {
-                mMovieAdapter.clear();
-                for (String movieStr : result) {
-                    mMovieAdapter.add(movieStr);
-                }
+ //               mMovieAdapter.clear();
+                mMovieAdapter.addAll(result);
+//                for (String movieStr : result) {
+//                    mMovieAdapter.add(movieStr);
+//
+//                }
                 // New data is back from the server. Hooray?
             }
         }

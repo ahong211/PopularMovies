@@ -18,7 +18,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField("String", "POPULAR_MOVIES_API_KEY", "\"YOUR_API_KEY_HERE\"")
+        it.buildConfigField("String", "POPULAR_MOVIES_API_KEY", "\"e2c8b00f9b43ebe15d40d1517f611e56\"")
     }
 }
 
