@@ -1,6 +1,7 @@
 package com.example.albert.popularmovies;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import org.json.JSONArray;
@@ -80,12 +82,16 @@ public class MovieFragment extends Fragment {
 
         GridView gridView = (GridView) rootView.findViewById(R.id.poster_grid);
         gridView.setAdapter(mMovieAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                startActivity(intent);
 
- //       ImageView imageView = (ImageView) rootView.findViewById(R.id.list_poster_textview);
-
-//        Picasso.with(getActivity())
-//                .load("http://www.golden-retriever-dog.com/wp-content/uploads/2015/08/golden-retriever-dog-03.jpg")
-//                .into(imageView);
+//              Context context = getContext();
+//              Toast.makeText(context, "You clicked me", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         return rootView;
