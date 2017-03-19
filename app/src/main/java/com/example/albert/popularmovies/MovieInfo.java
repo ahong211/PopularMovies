@@ -6,10 +6,20 @@ package com.example.albert.popularmovies;
 
 public class MovieInfo {
     String posterURL;
-  //  int count;
+    String movieName;
+    String overview;
+    String usrRating;
+    String releaseDate;
 
-    public MovieInfo (String pName) {
-        this.posterURL = pName;
-  //      this.count = mCount;
+    public MovieInfo (String mURL, String mName, String mOverview, String mRating, String mDate) {
+        this.posterURL = mURL;
+        this.movieName = mName;
+        this.overview = mOverview;
+        this.usrRating = mRating;
+        this.releaseDate = mDate;
+    }
+
+    public String getMoviePosterURL() {
+        return posterURL;
     }
 }

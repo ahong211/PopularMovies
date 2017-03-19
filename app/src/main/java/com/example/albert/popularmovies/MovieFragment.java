@@ -78,7 +78,7 @@ public class MovieFragment extends Fragment {
 
 //        mMovieAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_posters, R.id.list_poster_textview, new ArrayList<String>());
 
-        mMovieAdapter = new MovieAdapter(getActivity(), new ArrayList<String>());
+        mMovieAdapter = new MovieAdapter(getActivity(), new ArrayList<MovieInfo>());
 
         GridView gridView = (GridView) rootView.findViewById(R.id.poster_grid);
         gridView.setAdapter(mMovieAdapter);
@@ -104,8 +104,9 @@ public class MovieFragment extends Fragment {
         movieTask.execute();
     }
 
-    public class FetchMovieTask extends AsyncTask<String, Void, String[]> {
+    public class FetchMovieTask extends AsyncTask<Object, Object, MovieInfo[]> {
 
+        private MovieAdapter movieAdapter;
         private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
 
         /**
@@ -116,32 +117,44 @@ public class MovieFragment extends Fragment {
          * into an Object hierarchy for us.
          */
 
-        private String[] getMovieDataFromJson(String movieJsonStr) throws JSONException {
+        private MovieInfo[] getMovieDataFromJson(String movieJsonStr) throws JSONException {
 
             // These are the names of the JSON objects that need to be extracted.
             final String MDB_RESULTS = "results";
             final String MDB_POSTER_PATH = "poster_path";
+            final String MDB_TITLE = "title";
+            final String MDB_OVERVIEW = "overview";
+            final String MDB_RATING = "vote_average";
+            final String MDB_DATE = "release_date";
 
             JSONObject movieJson = new JSONObject(movieJsonStr);
             JSONArray movieArray = movieJson.getJSONArray(MDB_RESULTS);
 
-            String[] resultStrs = new String[20];
+            MovieInfo[] resultStrs = new MovieInfo[20];
 
 
             for (int i = 0; i < movieArray.length(); i++) {
                 // For now, just going to output the poster path url string
                 String posterPathString;
+                String movieTitle;
+                String movieDesc;
+                String movieRating;
+                String movieDate;
 
                 // Get the JSON object representing that movie in the json
                 JSONObject numMovie = movieArray.getJSONObject(i);
 
                 posterPathString = numMovie.getString(MDB_POSTER_PATH);
+                movieTitle = numMovie.getString(MDB_TITLE);
+                movieDesc = numMovie.getString(MDB_OVERVIEW);
+                movieRating = numMovie.getString(MDB_RATING);
+                movieDate = numMovie.getString(MDB_DATE);
 
-                resultStrs[i] = "http://image.tmdb.org/t/p/w185" + posterPathString;
+                resultStrs[i] = new MovieInfo(posterPathString, movieTitle, movieDesc, movieRating, movieDate);
 
             }
 
-            for (String s : resultStrs) {
+            for (MovieInfo s : resultStrs) {
                 Log.v(LOG_TAG, "Poster Entries: " + s);
             }
 
@@ -149,7 +162,7 @@ public class MovieFragment extends Fragment {
         }
 
         @Override
-        protected String[] doInBackground(String... params) {
+        protected MovieInfo[] doInBackground(Object... params) {
 
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block
@@ -237,7 +250,7 @@ public class MovieFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String[] result) {
+        protected void onPostExecute(MovieInfo[] result) {
 
             if (result != null) {
  //               mMovieAdapter.clear();

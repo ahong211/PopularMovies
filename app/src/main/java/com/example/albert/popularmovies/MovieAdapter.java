@@ -18,13 +18,16 @@ import java.util.ArrayList;
 public class MovieAdapter extends ArrayAdapter {
 
     Activity mContext;
-    ArrayList<String> poster = new ArrayList<String>();
+    // ArrayList<MovieInfo> poster = new ArrayList<MovieInfo>();
+    MovieInfo url;
 
-    public MovieAdapter(Activity context, ArrayList<String> poster) {
+
+    public MovieAdapter(Activity context, ArrayList<MovieInfo> poster) {
         super(context, 0, poster);
 
         this.mContext = context;
-        this.poster = poster;
+       // this.poster = poster;
+
     }
 
     @Override
@@ -35,10 +38,11 @@ public class MovieAdapter extends ArrayAdapter {
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.list_poster_textview);
 
-        String temp = poster.get(position);
+        url = (MovieInfo) getItem(position);
+        String temp = url.posterURL;
 
         Picasso.with(mContext)
-                .load(temp)
+                .load("http://image.tmdb.org/t/p/w185" + temp)
                 .fit()
                 .into(imageView);
 
