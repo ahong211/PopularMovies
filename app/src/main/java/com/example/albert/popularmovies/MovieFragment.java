@@ -35,7 +35,8 @@ import java.util.ArrayList;
 public class MovieFragment extends Fragment {
 
     private MovieAdapter mMovieAdapter;
-   // List<String> urlStrings = new ArrayList<String>();
+    private ArrayList<MovieInfo> movieInfoArrayList = new ArrayList<MovieInfo>();
+    int count = 0;
 
     public MovieFragment() {
         // Required empty public constructor
@@ -44,6 +45,13 @@ public class MovieFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState == null || !savedInstanceState.containsKey("movieDB")) {
+            movieInfoArrayList = new ArrayList<MovieInfo>();
+        }
+        else {
+            movieInfoArrayList = savedInstanceState.getParcelableArrayList("movieDB");
+        }
         // Add this line in order for this fragment to handles menu events.
         setHasOptionsMenu(true);
     }
@@ -70,6 +78,12 @@ public class MovieFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList("movieDB", movieInfoArrayList);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -78,7 +92,7 @@ public class MovieFragment extends Fragment {
 
 //        mMovieAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_posters, R.id.list_poster_textview, new ArrayList<String>());
 
-        mMovieAdapter = new MovieAdapter(getActivity(), new ArrayList<MovieInfo>());
+        mMovieAdapter = new MovieAdapter(getActivity(), movieInfoArrayList);
 
         GridView gridView = (GridView) rootView.findViewById(R.id.poster_grid);
         gridView.setAdapter(mMovieAdapter);
@@ -101,12 +115,18 @@ public class MovieFragment extends Fragment {
 
         return rootView;
     }
+
+
     @Override
     public void onStart() {
         super.onStart();
 
-        FetchMovieTask movieTask = new FetchMovieTask();
-        movieTask.execute();
+        if (count == 0) {
+            FetchMovieTask movieTask = new FetchMovieTask();
+            movieTask.execute();
+            count++;
+        }
+
     }
 
     public class FetchMovieTask extends AsyncTask<Object, Object, MovieInfo[]> {
