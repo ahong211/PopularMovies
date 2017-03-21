@@ -19,7 +19,7 @@ public class MovieAdapter extends ArrayAdapter {
 
     Activity mContext;
     // ArrayList<MovieInfo> poster = new ArrayList<MovieInfo>();
-    MovieInfo url;
+    private MovieInfo url;
 
 
     public MovieAdapter(Activity context, ArrayList<MovieInfo> poster) {

@@ -1,5 +1,6 @@
 package com.example.albert.popularmovies;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -51,12 +56,33 @@ public class DetailActivity extends AppCompatActivity {
         private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
         public DetailFragment() {
-
+            setHasOptionsMenu(true);
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.activity_detail, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+
+            MovieInfo movieData;
+
+            // The detail Activity called via intent. Inspect the intent for data.
+            Intent intent = getActivity().getIntent();
+            if (intent != null) {
+                movieData = intent.getParcelableExtra("movieStrings");
+                ((TextView) rootView.findViewById(R.id.movie_title)).setText(movieData.movieName);
+
+                ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_poster);
+
+                Picasso.with(getActivity())
+                        .load("http://image.tmdb.org/t/p/w185" + movieData.posterURL)
+                        .into(imageView);
+
+                ((TextView) rootView.findViewById(R.id.movie_synopsis)).setText(movieData.overview);
+                ((TextView) rootView.findViewById(R.id.movie_date)).setText("Release Date: " + movieData.releaseDate);
+                ((TextView) rootView.findViewById(R.id.movie_rating)).setText("Rating: " + movieData.usrRating + "/10");
+
+            }
+
             return rootView;
         }
 

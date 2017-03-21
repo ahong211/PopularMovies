@@ -85,7 +85,12 @@ public class MovieFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                MovieInfo tempHolder = (MovieInfo) mMovieAdapter.getItem(position);
+
+                String mTitle = tempHolder.movieName;
+                String mDate = tempHolder.releaseDate;
+
+                Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra("movieStrings", tempHolder);
                 startActivity(intent);
 
 //              Context context = getContext();

@@ -8,4 +8,5 @@
     tools:context="com.example.albert.popularmovies.DetailActivity"
     tools:ignore="MergeRootFrame">
 
+
 </FrameLayout>

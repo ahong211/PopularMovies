@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context = ".DetailActivity$DetailFragment">
+
+    <TextView
+        android:id="@+id/movie_title"
+        android:text="Hello Ollie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="15dp"/>
+
+    <ImageView
+        android:id="@+id/movie_poster"
+        android:layout_width="150dp"
+        android:layout_height="220dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/movie_title"
+        android:paddingBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/movie_synopsis"
+        android:text="A dog walks in the park"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movie_poster"
+        android:paddingBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/movie_date"
+        android:text="August 1, 2014"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movie_synopsis"
+        android:paddingBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/movie_rating"
+        android:text="9.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/movie_date"/>
+</RelativeLayout>
