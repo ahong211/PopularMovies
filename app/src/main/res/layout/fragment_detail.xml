@@ -4,15 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context = ".DetailActivity$DetailFragment">
 
     <TextView
         android:id="@+id/movie_title"
-        android:text="Hello Ollie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="15dp"/>
+        android:paddingBottom="15dp"
+        android:textColor="@color/colorText"
+        android:textStyle="bold"
+        android:textSize="25dp"/>
 
     <ImageView
         android:id="@+id/movie_poster"
@@ -24,24 +27,27 @@
 
     <TextView
         android:id="@+id/movie_synopsis"
-        android:text="A dog walks in the park"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/movie_poster"
-        android:paddingBottom="15dp"/>
+        android:paddingBottom="15dp"
+        android:textColor="@color/colorText"
+        android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/movie_date"
-        android:text="August 1, 2014"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/movie_synopsis"
-        android:paddingBottom="15dp"/>
+        android:paddingBottom="15dp"
+        android:textColor="@color/colorText"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/movie_rating"
-        android:text="9.0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/movie_date"/>
+        android:layout_below="@+id/movie_date"
+        android:textColor="@color/colorText"
+        android:textSize="15dp"/>
 </RelativeLayout>

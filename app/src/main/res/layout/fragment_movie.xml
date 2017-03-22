@@ -6,7 +6,7 @@
     android:horizontalSpacing="0dp"
     android:numColumns="auto_fit"
     android:verticalSpacing="0dp"
+    android:background="@color/colorBackground"
     tools:context="com.example.albert.popularmovies.MovieFragment"
     android:id="@+id/poster_grid">
-
 </GridView>

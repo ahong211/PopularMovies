@@ -2,9 +2,11 @@ package com.example.albert.popularmovies;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +38,6 @@ public class MovieFragment extends Fragment {
 
     private MovieAdapter mMovieAdapter;
     private ArrayList<MovieInfo> movieInfoArrayList = new ArrayList<MovieInfo>();
-    int count = 0;
 
     public MovieFragment() {
         // Required empty public constructor
@@ -69,8 +70,7 @@ public class MovieFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
 
-            FetchMovieTask movieTask = new FetchMovieTask();
-            movieTask.execute();
+            updateMovieScreen();
 
             return true;
         }
@@ -90,8 +90,6 @@ public class MovieFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
 
-//        mMovieAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_posters, R.id.list_poster_textview, new ArrayList<String>());
-
         mMovieAdapter = new MovieAdapter(getActivity(), movieInfoArrayList);
 
         GridView gridView = (GridView) rootView.findViewById(R.id.poster_grid);
@@ -101,14 +99,9 @@ public class MovieFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MovieInfo tempHolder = (MovieInfo) mMovieAdapter.getItem(position);
 
-                String mTitle = tempHolder.movieName;
-                String mDate = tempHolder.releaseDate;
-
                 Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra("movieStrings", tempHolder);
                 startActivity(intent);
 
-//              Context context = getContext();
-//              Toast.makeText(context, "You clicked me", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -121,12 +114,13 @@ public class MovieFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (count == 0) {
-            FetchMovieTask movieTask = new FetchMovieTask();
-            movieTask.execute();
-            count++;
-        }
+        updateMovieScreen();
+    }
 
+    private void updateMovieScreen() {
+        FetchMovieTask movieTask = new FetchMovieTask();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        movieTask.execute();
     }
 
     public class FetchMovieTask extends AsyncTask<Object, Object, MovieInfo[]> {
@@ -197,9 +191,11 @@ public class MovieFragment extends Fragment {
             // Will contain the raw JSON response as a string.
             String movieJsonStr = null;
 
-            int numMovies = 20;
+    //        int numMovies = 20;
 
-            String sort = "popularity.desc";
+            String sortPop = "popularity.desc";
+            String sortTop = "vote_average.desc";
+            Uri builtUri;
 
             try {
                 // Construct the URL for the MovieDB query
@@ -207,10 +203,23 @@ public class MovieFragment extends Fragment {
                 final String SORT_PARAM = "sort_by";
                 final String APPKEY_PARAM = "api_key";
 
-                Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
-                        .appendQueryParameter(SORT_PARAM, sort)
-                        .appendQueryParameter(APPKEY_PARAM, BuildConfig.POPULAR_MOVIES_API_KEY)
-                        .build();
+
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String sortType = sharedPrefs.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_vPop));
+
+                if (sortType.equals(getString(R.string.pref_sort_vTop))) {
+                    builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
+                            .appendQueryParameter(SORT_PARAM, sortTop)
+                            .appendQueryParameter(APPKEY_PARAM, BuildConfig.POPULAR_MOVIES_API_KEY)
+                            .build();
+                } else {
+                    Log.d(LOG_TAG, "Sort type not found:" + sortType);
+                    builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
+                            .appendQueryParameter(SORT_PARAM, sortPop)
+                            .appendQueryParameter(APPKEY_PARAM, BuildConfig.POPULAR_MOVIES_API_KEY)
+                            .build();
+                }
+
 
                 URL url = new URL(builtUri.toString());
 
@@ -247,7 +256,7 @@ public class MovieFragment extends Fragment {
                 movieJsonStr = buffer.toString();
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
-                // If the code didn't successfully get the weather data, there's no point in attempting
+                // If the code didn't successfully get the movieDB data, there's no point in attempting
                 // to parse it.
                 return null;
             } finally {
@@ -278,13 +287,8 @@ public class MovieFragment extends Fragment {
         protected void onPostExecute(MovieInfo[] result) {
 
             if (result != null) {
- //               mMovieAdapter.clear();
+                mMovieAdapter.clear();
                 mMovieAdapter.addAll(result);
-//                for (String movieStr : result) {
-//                    mMovieAdapter.add(movieStr);
-//
-//                }
-                // New data is back from the server. Hooray?
             }
         }
     }

@@ -50,9 +50,7 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+
     public static class DetailFragment extends Fragment {
         private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
