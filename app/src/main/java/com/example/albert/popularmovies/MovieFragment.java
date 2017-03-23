@@ -193,14 +193,13 @@ public class MovieFragment extends Fragment {
 
     //        int numMovies = 20;
 
-            String sortPop = "popularity.desc";
-            String sortTop = "vote_average.desc";
+            String sortPop = "popular";
+            String sortTop = "top_rated";
             Uri builtUri;
 
             try {
                 // Construct the URL for the MovieDB query
-                final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/discover/movie?";
-                final String SORT_PARAM = "sort_by";
+                final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";
                 final String APPKEY_PARAM = "api_key";
 
 
@@ -209,13 +208,14 @@ public class MovieFragment extends Fragment {
 
                 if (sortType.equals(getString(R.string.pref_sort_vTop))) {
                     builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
-                            .appendQueryParameter(SORT_PARAM, sortTop)
+                            .appendPath(sortTop)
                             .appendQueryParameter(APPKEY_PARAM, BuildConfig.POPULAR_MOVIES_API_KEY)
                             .build();
                 } else {
                     Log.d(LOG_TAG, "Sort type not found:" + sortType);
+
                     builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
-                            .appendQueryParameter(SORT_PARAM, sortPop)
+                            .appendPath(sortPop)
                             .appendQueryParameter(APPKEY_PARAM, BuildConfig.POPULAR_MOVIES_API_KEY)
                             .build();
                 }
