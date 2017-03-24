@@ -1,6 +1,7 @@
 package com.example.albert.popularmovies;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -76,9 +77,15 @@ public class DetailActivity extends AppCompatActivity {
                         .load("http://image.tmdb.org/t/p/w185" + movieData.posterURL)
                         .into(imageView);
 
+                Resources res = getResources();
+                String detailDate = res.getString(R.string.release_date, movieData.releaseDate);
+                String detailRating = res.getString(R.string.vote_average, movieData.usrRating);
+
                 ((TextView) rootView.findViewById(R.id.movie_synopsis)).setText(movieData.overview);
-                ((TextView) rootView.findViewById(R.id.movie_date)).setText("Release Date: " + movieData.releaseDate);
-                ((TextView) rootView.findViewById(R.id.movie_rating)).setText("Rating: " + movieData.usrRating + "/10");
+//                ((TextView) rootView.findViewById(R.id.movie_date)).setText("Release Date: " + movieData.releaseDate);
+                ((TextView) rootView.findViewById(R.id.movie_date)).setText(detailDate);
+      //          ((TextView) rootView.findViewById(R.id.movie_rating)).setText("Rating: " + movieData.usrRating + "/10");
+                ((TextView) rootView.findViewById(R.id.movie_rating)).setText(detailRating);
 
             }
 

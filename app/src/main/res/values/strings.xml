@@ -26,4 +26,8 @@
         <item>@string/pref_sort_vPop</item>
         <item>@string/pref_sort_vTop</item>
     </string-array>
+
+    <!-- Strings with dynamic parameters -->
+    <string name="release_date">Release Date: %1$s</string>
+    <string name="vote_average">Rating: %1$s/10</string>
 </resources>
