@@ -71,13 +71,15 @@ public class DetailActivity extends AppCompatActivity {
                 movieData = intent.getParcelableExtra("movieStrings");
                 ((TextView) rootView.findViewById(R.id.movie_title)).setText(movieData.movieName);
 
+                Resources res = getResources();
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_poster);
+                String detailPoster = res.getString(R.string.poster_url, movieData.posterURL);
+
 
                 Picasso.with(getActivity())
-                        .load("http://image.tmdb.org/t/p/w185" + movieData.posterURL)
+                        .load(detailPoster)
                         .into(imageView);
 
-                Resources res = getResources();
                 String detailDate = res.getString(R.string.release_date, movieData.releaseDate);
                 String detailRating = res.getString(R.string.vote_average, movieData.usrRating);
 

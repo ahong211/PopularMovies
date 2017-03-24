@@ -36,6 +36,7 @@ public class MovieAdapter extends ArrayAdapter {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_posters, parent, false);
         }
 
+
         ImageView imageView = (ImageView) convertView.findViewById(R.id.list_poster_textview);
 
         url = (MovieInfo) getItem(position);

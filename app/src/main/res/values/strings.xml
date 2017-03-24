@@ -30,4 +30,5 @@
     <!-- Strings with dynamic parameters -->
     <string name="release_date">Release Date: %1$s</string>
     <string name="vote_average">Rating: %1$s/10</string>
+    <string name="poster_url">http://image.tmdb.org/t/p/w185%1$s</string>
 </resources>
