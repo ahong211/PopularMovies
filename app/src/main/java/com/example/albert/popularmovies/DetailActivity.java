@@ -82,9 +82,7 @@ public class DetailActivity extends AppCompatActivity {
                 String detailRating = res.getString(R.string.vote_average, movieData.usrRating);
 
                 ((TextView) rootView.findViewById(R.id.movie_synopsis)).setText(movieData.overview);
-//                ((TextView) rootView.findViewById(R.id.movie_date)).setText("Release Date: " + movieData.releaseDate);
                 ((TextView) rootView.findViewById(R.id.movie_date)).setText(detailDate);
-      //          ((TextView) rootView.findViewById(R.id.movie_rating)).setText("Rating: " + movieData.usrRating + "/10");
                 ((TextView) rootView.findViewById(R.id.movie_rating)).setText(detailRating);
 
             }
