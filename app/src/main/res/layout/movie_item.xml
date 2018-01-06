@@ -14,6 +14,6 @@
         android:id="@+id/tv_movie_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is an exmaple description"/>
+        android:text="This is an example description"/>
 
 </LinearLayout>
