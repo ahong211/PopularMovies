@@ -4,16 +4,9 @@
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_movie_title"
+    <ImageView
+        android:id="@+id/iv_movie_poster"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My popular movie strings"/>
-
-    <TextView
-        android:id="@+id/tv_movie_release_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is an example description"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

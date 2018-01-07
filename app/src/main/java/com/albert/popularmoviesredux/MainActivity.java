@@ -25,11 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
         initializeLayouts();
 
-//        Glide.with(this)
-//                .load("http://www.icon2s.com/wp-content/uploads/2014/04/black-white-android-film-reel.png")
-//                .into(showExampleImage);
-
-
         mLayoutManager = new LinearLayoutManager(this);
         movieRecyclerView.setLayoutManager(mLayoutManager);
         adapter = new MovieAdapter();
