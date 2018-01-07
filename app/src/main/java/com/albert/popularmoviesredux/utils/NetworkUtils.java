@@ -20,15 +20,15 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     private static String BASE_URL = "http://api.themoviedb.org/3/";
-    private static String MEDIA_TYPE = "movie/";
-    private static String SORT_ORDER = "popular";
+    private static String MEDIA_TYPE = "movie";
+//    private static String SORT_ORDER = "popular";
     private static String API_KEY = "api_key";
 
     public static URL buildUrl(String movieQuery) {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
         .appendPath(MEDIA_TYPE)
-                .appendPath(SORT_ORDER)
-                .appendQueryParameter(API_KEY, "XXXXXXXXXXXX")
+                .appendPath(movieQuery)
+                .appendQueryParameter(API_KEY, "XXXXXXXXXXXXXX")
                 .build();
 
         URL url = null;

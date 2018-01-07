@@ -6,32 +6,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 /**
  * Created by Albert on 10/15/17.
  */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
-    List<MovieInfo> movies;
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView movieTitle;
-        TextView movieDesc;
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            movieTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
-            movieDesc = (TextView) itemView.findViewById(R.id.tv_movie_desc);
-        }
-    }
+    MovieInfo[] mMovieInfos;
 
     public MovieAdapter() {
     }
 
-    public MovieAdapter(List<MovieInfo> movies) {
-        this.movies = movies;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView movieTitle;
+        TextView movieReleaseDate;
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            movieTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
+            movieReleaseDate = (TextView) itemView.findViewById(R.id.tv_movie_release_date);
+        }
     }
 
     @Override
@@ -44,12 +38,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
-//        holder.movieTitle.setText(movies.get(position).getTitle());
-//        holder.movieDesc.setText(movies.get(position).getDescription());
+        holder.movieTitle.setText(mMovieInfos[position].getOriginalTitle());
+        holder.movieReleaseDate.setText(mMovieInfos[position].getReleaseDate());
     }
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        if (null == mMovieInfos) return 0;
+        return mMovieInfos.length;
+    }
+
+    public void setMovieData(MovieInfo[] movieInfos) {
+        mMovieInfos = movieInfos;
+        notifyDataSetChanged();
     }
 }
