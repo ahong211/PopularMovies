@@ -44,8 +44,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
-        holder.movieTitle.setText(movies.get(position).getTitle());
-        holder.movieDesc.setText(movies.get(position).getDescription());
+//        holder.movieTitle.setText(movies.get(position).getTitle());
+//        holder.movieDesc.setText(movies.get(position).getDescription());
     }
 
     @Override

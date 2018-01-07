@@ -1,4 +1,6 @@
-package com.albert.popularmoviesredux;
+package com.albert.popularmoviesredux.utils;
+
+import com.albert.popularmoviesredux.MovieInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;

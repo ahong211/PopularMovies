@@ -70,9 +70,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addMovies() {
-        MovieInfo starbucks = new MovieInfo("starbucks", "A place where you can drink coffee");
-        movieList.add(starbucks);
-        MovieInfo gnc = new MovieInfo("GNC", "Where vitamins meets healthy living");
-        movieList.add(gnc);
+
     }
 }
