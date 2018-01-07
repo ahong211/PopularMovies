@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -22,15 +21,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView movieTitle;
-        TextView movieReleaseDate;
         ImageView moviePoster;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            movieTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
-            movieReleaseDate = (TextView) itemView.findViewById(R.id.tv_movie_release_date);
             moviePoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
         }
     }
