@@ -41,9 +41,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
 
-//        holder.movieTitle.setText(mMovieInfos[position].getOriginalTitle());
-//        holder.movieReleaseDate.setText(mMovieInfos[position].getReleaseDate());
-
         Glide.with(holder.moviePoster.getContext())
                 .load(IMG_URL + "w185/" + (mMovieInfos[position].getPosterPath()))
                 .into(holder.moviePoster);

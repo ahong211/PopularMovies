@@ -3,7 +3,7 @@ package com.albert.popularmoviesredux;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.albert.popularmoviesredux.utils.MovieDBJsonUtils;
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     FetchMovieTask mFetchMovieTask = new FetchMovieTask();
     RecyclerView movieRecyclerView;
     MovieAdapter adapter;
-    LinearLayoutManager mLayoutManager;
+    GridLayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         initializeLayouts();
 
-        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager = new GridLayoutManager(this, 2);
         movieRecyclerView.setLayoutManager(mLayoutManager);
+        movieRecyclerView.hasFixedSize();
         adapter = new MovieAdapter();
         movieRecyclerView.setAdapter(adapter);
 
