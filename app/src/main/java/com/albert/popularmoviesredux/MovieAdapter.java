@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
-    final String IMG_URL = "http://image.tmdb.org/t/p/";
+    final String IMG_URL = "http://image.tmdb.org/t/p/w185/";
     MovieInfo[] mMovieInfos;
     private MovieOnClickListener mMovieOnClickListener;
 
@@ -56,7 +56,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
 
         Glide.with(holder.moviePoster.getContext())
-                .load(IMG_URL + "w185/" + (mMovieInfos[position].getPosterPath()))
+                .load(IMG_URL + (mMovieInfos[position].getPosterPath()))
                 .into(holder.moviePoster);
 
     }
