@@ -16,17 +16,31 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     final String IMG_URL = "http://image.tmdb.org/t/p/";
     MovieInfo[] mMovieInfos;
+    private MovieOnClickListener mMovieOnClickListener;
 
-    public MovieAdapter() {
+    public MovieAdapter(MovieOnClickListener movieOnClickListener) {
+        mMovieOnClickListener = movieOnClickListener;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public interface MovieOnClickListener {
+        void onClick(MovieInfo movieInfo);
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView moviePoster;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             moviePoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            MovieInfo moviePosition = mMovieInfos[adapterPosition];
+            mMovieOnClickListener.onClick(moviePosition);
         }
     }
 

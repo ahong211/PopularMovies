@@ -1,5 +1,7 @@
 package com.albert.popularmoviesredux;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +13,7 @@ import com.albert.popularmoviesredux.utils.NetworkUtils;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener{
 
     FetchMovieTask mFetchMovieTask = new FetchMovieTask();
     RecyclerView movieRecyclerView;
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new GridLayoutManager(this, 2);
         movieRecyclerView.setLayoutManager(mLayoutManager);
         movieRecyclerView.hasFixedSize();
-        adapter = new MovieAdapter();
+        adapter = new MovieAdapter(this);
         movieRecyclerView.setAdapter(adapter);
 
         loadMovieData();
@@ -41,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
     private void loadMovieData() {
         String popularSortOrder = "popular";
         mFetchMovieTask.execute(popularSortOrder);
+    }
+
+    @Override
+    public void onClick(MovieInfo movieInfo) {
+        Context context = this;
+        Class detailActivityClass = DetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, detailActivityClass);
+        intentToStartDetailActivity.putExtra("movieData", movieInfo);
+        startActivity(intentToStartDetailActivity);
     }
 
     public class FetchMovieTask extends AsyncTask<String, Void, MovieInfo[]> {

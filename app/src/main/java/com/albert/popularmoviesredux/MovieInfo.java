@@ -1,10 +1,13 @@
 package com.albert.popularmoviesredux;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Albert on 10/11/17.
  */
 
-public class MovieInfo {
+public class MovieInfo implements Parcelable{
 
     private String originalTitle;
     private String overview;
@@ -19,6 +22,26 @@ public class MovieInfo {
         this.voteAverage = voteAverage;
         this.releaseDate = releaseDate;
     }
+
+    protected MovieInfo(Parcel in) {
+        originalTitle = in.readString();
+        overview = in.readString();
+        posterPath = in.readString();
+        voteAverage = in.readString();
+        releaseDate = in.readString();
+    }
+
+    public static final Creator<MovieInfo> CREATOR = new Creator<MovieInfo>() {
+        @Override
+        public MovieInfo createFromParcel(Parcel in) {
+            return new MovieInfo(in);
+        }
+
+        @Override
+        public MovieInfo[] newArray(int size) {
+            return new MovieInfo[size];
+        }
+    };
 
     public String getOriginalTitle() {
         return originalTitle;
@@ -38,5 +61,19 @@ public class MovieInfo {
 
     public String getReleaseDate() {
         return releaseDate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(originalTitle);
+        dest.writeString(overview);
+        dest.writeString(posterPath);
+        dest.writeString(voteAverage);
+        dest.writeString(releaseDate);
     }
 }
