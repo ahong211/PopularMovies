@@ -18,14 +18,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     MovieInfo[] mMovieInfos;
     private MovieOnClickListener mMovieOnClickListener;
 
-    public MovieAdapter(MovieOnClickListener movieOnClickListener) {
+    public MovieAdapter(MovieOnClickListener movieOnClickListener, MovieInfo[] mMovieInfos) {
         mMovieOnClickListener = movieOnClickListener;
+        this.mMovieInfos = mMovieInfos;
     }
 
     public interface MovieOnClickListener {
         void onClick(MovieInfo movieInfo);
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView moviePoster;
@@ -63,7 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (null == mMovieInfos) return 0;
+//        if (null == mMovieInfos) return 0;
         return mMovieInfos.length;
     }
 

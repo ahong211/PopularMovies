@@ -13,24 +13,30 @@ import com.albert.popularmoviesredux.utils.NetworkUtils;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener{
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieOnClickListener {
 
     FetchMovieTask mFetchMovieTask = new FetchMovieTask();
     RecyclerView movieRecyclerView;
     MovieAdapter adapter;
     GridLayoutManager mLayoutManager;
+    MovieInfo[] mInfo = new MovieInfo[]{};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initializeLayouts();
+
+        if (savedInstanceState == null || !savedInstanceState.containsKey("movieDB")) {
+            mInfo = new MovieInfo[]{};
+        } else {
+            mInfo = (MovieInfo[]) savedInstanceState.getParcelableArray("movieDB");
+        }
 
         mLayoutManager = new GridLayoutManager(this, 2);
         movieRecyclerView.setLayoutManager(mLayoutManager);
         movieRecyclerView.hasFixedSize();
-        adapter = new MovieAdapter(this);
+        adapter = new MovieAdapter(this, mInfo);
         movieRecyclerView.setAdapter(adapter);
 
         loadMovieData();
@@ -81,5 +87,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             super.onPostExecute(movieData);
             adapter.setMovieData(movieData);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArray("movieDB", mInfo);
+        super.onSaveInstanceState(outState);
     }
 }
