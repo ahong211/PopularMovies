@@ -21,7 +21,6 @@ public class NetworkUtils {
 
     private static String BASE_URL = "http://api.themoviedb.org/3/";
     private static String MEDIA_TYPE = "movie";
-//    private static String SORT_ORDER = "popular";
     private static String API_KEY = "api_key";
 
     public static URL buildUrl(String movieQuery) {
